@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "name": "Leite",
+      "price": 5.50,
+      "measure": "caixinha"
+    },
+    {
+      "id": "2",
+      "name": "Maça",
+      "price": 0.50,
+      "measure": "unidade"
+    },
+    {
+      "id": "3",
+      "name": "Banana",
+      "price": 0.75,
+      "measure": "unidade"
+    },
+    {
+      "id": "4",
+      "name": "ovos",
+      "price": 5.99,
+      "measure": "duzia"
+    },
+    {
+      "id": "5",
+      "name": "Queijo",
+      "price": 10.00,
+      "measure": "unidade"
+    },
+    {
+      "id": "6",
+      "name": "Pão de Queijo",
+      "price": 0.45,
+      "measure": "unidade"
+    },
+    {
+      "id": "7",
+      "name": "Frango",
+      "price": 35.50,
+      "measure": "inteiro"
+    },
+    {
+      "id": "8",
+      "name": "Leite",
+      "price": 55.50,
+      "measure": "caixa"
+    },
+    {
+      "id": "9",
+      "name": "Pêra",
+      "price": 2.00,
+      "measure": "unidade"
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 import React from 'react';
 import Login from './app/views/Login'
-import Register from './app/views/Register'
+import ItemList from './app/views/ItemList'
 
 
 export default class App extends React.Component {
   render() {
     return (
-      <Login />
+      <ItemList />
     );
   }
 }
