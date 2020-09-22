@@ -2,7 +2,12 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Cart from '../views/Cart'
 
+
+function addItmCart(){
+      
+}
 
 export default function ItemCard({ event }) {
   return (
@@ -13,7 +18,7 @@ export default function ItemCard({ event }) {
         <Text style={styles.price}>R${event.price}</Text>
       </View>
       <View style={styles.button}>
-        <Button
+        <Button onPress={(addItmCart(ItemCard))}
           icon={
             <Icon
               name="plus"
