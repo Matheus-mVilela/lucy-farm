@@ -2,8 +2,9 @@ import React from 'react';
 import { Text, View, StyleSheet, FlatList } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 import ItemCard from './ItemCard';
+
+
 
 
 export default class ItemList extends React.Component {
@@ -18,6 +19,7 @@ export default class ItemList extends React.Component {
     this.setState({ items });
   }
 
+  
   render() {
     return [
       <View style={styles.titleView}>
@@ -41,7 +43,7 @@ export default class ItemList extends React.Component {
         key='flatlist'
         style={styles.list}
         data={this.state.items}
-        renderItem={({ item }) => <ItemCard event={item} />}
+        renderItem={({ item }) => <ItemCard event={item}/>}
         keyExtractor={item => item.id}
       />,
     ];
