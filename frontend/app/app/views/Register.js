@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
  
   btnRegister: {
     marginTop: 15,
-    backgroundColor: '#ff0',
+    backgroundColor: '#1E90FF',
     width: 200,
     fontSize: 18,
     borderRadius: 10,

@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   btnLogin: {
-    backgroundColor: '#3e620a',
+    backgroundColor: '#228B22',
     width:200,
     fontSize: 18,
     marginTop: 22,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   btnRegister: {
     marginTop: 15,
-    backgroundColor: '#ff0',
+    backgroundColor: '#1E90FF',
     width:200,
     fontSize: 18,
     borderRadius: 10,

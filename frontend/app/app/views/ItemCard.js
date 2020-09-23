@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Cart from '../views/Cart'
+
 
 
 function addItmCart(){
-      
+
 }
 
 export default function ItemCard({ event }) {
