@@ -4,11 +4,6 @@ import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-
-function addItmCart(){
-
-}
-
 export default function ItemCard({ event }) {
   return (
     <View style={styles.card}>

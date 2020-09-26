@@ -9,7 +9,7 @@ import ConfirmView from './app/views/ConfirmView'
 export default class App extends React.Component {
   render() {
     return (
-      <Login/>
+      <CartView/>
     );
   }
 }
