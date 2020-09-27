@@ -3,7 +3,11 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import Header from "../sections/Header";
 import Footer from "../sections/Footer";
 
-export default class Login extends React.Component {
+export class Login extends React.Component {
+  goToItemList = () => {
+    this.props.navigation.navigate('Produtos')
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -25,11 +29,17 @@ export default class Login extends React.Component {
             onChangeText={() => { }}
           />
 
-          <TouchableOpacity style={styles.btnLogin}>
+          <TouchableOpacity
+            style={styles.btnLogin}
+            onPress={this.goToItemList}
+          >
             <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.btnRegister}>
+          <TouchableOpacity
+            style={styles.btnRegister}
+            onPress={() => this.props.navigation.navigate('Cadastro')}
+          >
             <Text style={styles.registerText}>FAZER CADASTRO</Text>
           </TouchableOpacity>
         </View>
@@ -43,17 +53,17 @@ export default class Login extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  componentLogin:{
-    flex:1.5,
-    alignItems:'center'
+  componentLogin: {
+    flex: 1.5,
+    alignItems: 'center'
   },
   input: {
     backgroundColor: '#dcdcdc',
-    width:300,
+    width: 300,
     fontSize: 18,
     marginBottom: 15,
     borderRadius: 10,
@@ -61,7 +71,7 @@ const styles = StyleSheet.create({
   },
   btnLogin: {
     backgroundColor: '#3e620a',
-    width:200,
+    width: 200,
     fontSize: 18,
     marginTop: 22,
     borderRadius: 10,
@@ -77,7 +87,7 @@ const styles = StyleSheet.create({
   btnRegister: {
     marginTop: 15,
     backgroundColor: '#ff0',
-    width:200,
+    width: 200,
     fontSize: 18,
     borderRadius: 10,
     padding: 9,

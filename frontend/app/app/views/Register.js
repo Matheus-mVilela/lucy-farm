@@ -3,7 +3,11 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import Header from "../sections/Header";
 import Footer from "../sections/Footer";
 
-export default class Login extends React.Component {
+export class Register extends React.Component {
+  goBack = () => {
+    this.props.navigation.goBack()
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -33,8 +37,18 @@ export default class Login extends React.Component {
             onChangeText={() => { }}
           />
 
-          <TouchableOpacity style={styles.btnRegister}>
+          <TouchableOpacity
+            style={styles.btnRegister}
+            onPress={this.goBack}
+          >
             <Text style={styles.registerText}>FAZER CADASTRO</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.btnRegister}
+            onPress={this.goBack}
+          >
+            <Text style={styles.registerText}>Voltar</Text>
           </TouchableOpacity>
         </View>
 
@@ -63,7 +77,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 12,
   },
- 
   btnRegister: {
     marginTop: 15,
     backgroundColor: '#ff0',
@@ -77,6 +90,4 @@ const styles = StyleSheet.create({
   registerText: {
     color: '#080101',
   }
-
-
 });

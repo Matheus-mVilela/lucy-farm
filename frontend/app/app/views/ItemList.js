@@ -3,12 +3,34 @@ import { Text, View, StyleSheet, FlatList } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import ItemCard from './ItemCard';
+import { ItemCard } from './ItemCard';
 
 
-export default class ItemList extends React.Component {
+export class ItemList extends React.Component {
   state = {
-    items: []
+    items: [],
+    cartItems: [
+      {
+        "name": "Leite",
+        "price": 5.50,
+        "measure": "caixinha"
+      },
+      {
+        "name": "Maça",
+        "price": 0.50,
+        "measure": "unidade"
+      },
+      {
+        "name": "Maça",
+        "price": 0.50,
+        "measure": "unidade"
+      },
+      {
+        "name": "Banana",
+        "price": 0.75,
+        "measure": "unidade"
+      },
+    ]
   }
 
   componentDidMount() {
@@ -16,6 +38,10 @@ export default class ItemList extends React.Component {
       ...e
     }));
     this.setState({ items });
+  }
+
+  goToCart = () => {
+    this.props.navigation.navigate('Carrinho', { cartItems: this.state.cartItems })
   }
 
   render() {
@@ -28,6 +54,7 @@ export default class ItemList extends React.Component {
           <Button
             icon={
               <Icon
+                onPress={this.goToCart}
                 name="shopping-cart"
                 size={25}
                 color="white"
