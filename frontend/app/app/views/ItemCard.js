@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import services from '../services';
 
+
 export function ItemCard({ item }) {
   return (
     <View style={styles.card}>

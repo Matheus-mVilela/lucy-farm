@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,7 +10,7 @@ export class Cart extends React.Component {
   state = {
     loading: false,
     items: [],
-    total: undefined,
+    total: 0,
   }
 
   componentDidMount() {
@@ -30,9 +30,9 @@ export class Cart extends React.Component {
           </View>
           <View>
             <Button
+              onPress={() => this.props.navigation.goBack()}
               icon={
                 <Icon
-                  onPress={() => this.props.navigation.goBack()}
                   name="plus"
                   size={25}
                   color="white"
@@ -50,18 +50,18 @@ export class Cart extends React.Component {
           key='flatlist'
           style={styles.list}
           data={this.state.items}
-          renderItem={({ item }) => <CartItem event={item} />}
+          renderItem={({ item }) => <CartItem item={item} />}
           keyExtractor={item => item.id}
         />
 
         <View style={styles.footer}>
-          {this.state.total !== undefined && (
+          {this.state.total !== 0 && (
             <Text>Total: {this.state.total}</Text>
           )}
-          {this.state.total !== undefined && (
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('FinishOrder')}>
+          {this.state.total !== 0 && (
+            <TouchableOpacity style={styles.buttonFinish} onPress={() => this.props.navigation.navigate('FinishOrder')}>
               <Text>FINALIZAR PEDIDO</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           )}
         </View>
       </View >
@@ -69,14 +69,26 @@ export class Cart extends React.Component {
   }
 }
 
-function CartItem({ event }) {
+function CartItem({ item }) {
   return (
     <View style={styles.cartList}>
+      <View style={styles.removeItem}>
+        <Button
+          onPress={() => services.removeItemToCart(item.id)}
+          icon={
+            <Icon
+              name="remove"
+              size={16}
+              color="white"
+            />
+          }
+        />
+      </View>
       <View style={styles.cartItem}>
-        <Text>{event.name}({event.measure})</Text>
+        <Text>{item.name}({item.measure})</Text>
       </View>
       <View>
-        <Text>R${event.price}</Text>
+        <Text>R${item.price}</Text>
       </View>
     </View >
   );
@@ -119,10 +131,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  removeItem: {
+    paddingRight: 10,
+  },
   cartItem: {
     paddingRight: 100,
   },
+  buttonFinish: {
+    marginTop: 15,
+    backgroundColor: 'green',
+    width: 200,
+    fontSize: 18,
+    borderRadius: 10,
+    padding: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   footer: {
-    flex: 1
+    flex: 1,
+    marginTop: 50
   },
 });

@@ -37,9 +37,9 @@ export class ItemList extends React.Component {
         </View>
         <View>
           <Button
+            onPress={this.goToCart}
             icon={
               <Icon
-                onPress={this.goToCart}
                 name="shopping-cart"
                 size={25}
                 color="white"

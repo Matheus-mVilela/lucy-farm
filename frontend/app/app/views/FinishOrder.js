@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import service from '../services.js';
 
 export class FinishOrder extends React.Component {
   goToItemList = () => {
-    this.props.navigation.navigate('Produtos')
+    service.cleanCart();
+    this.props.navigation.navigate('Produtos');
   }
 
   render() {
