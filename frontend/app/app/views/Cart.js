@@ -4,52 +4,69 @@ import { Text, View, StyleSheet, FlatList, TouchableHighlight } from 'react-nati
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import services from '../services';
 
-export function Cart({ route, navigation }) {
-  const { cartItems } = route.params;
+export class Cart extends React.Component {
+  state = {
+    loading: false,
+    items: [],
+    total: undefined,
+  }
 
-  let totalOrder = 0;
-  cartItems.forEach(element => {
-    totalOrder += element.price
-  });
+  componentDidMount() {
+    this.setState({ loading: true });
+    services.loadCart().then(card => {
+      this.setState({ items: card.items, total: card.total });
+      this.setState({ loading: false });
+    })
+  }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.titleView}>
-        <View style={styles.textView}>
-          <Text style={styles.titleText}>CARRINHO</Text>
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.titleView}>
+          <View style={styles.textView}>
+            <Text style={styles.titleText}>CARRINHO</Text>
+          </View>
+          <View>
+            <Button
+              icon={
+                <Icon
+                  onPress={() => this.props.navigation.goBack()}
+                  name="plus"
+                  size={25}
+                  color="white"
+                />
+              }
+            />
+          </View>
         </View>
-        <View>
-          <Button
-            icon={
-              <Icon
-                onPress={() => navigation.goBack()}
-                name="plus"
-                size={25}
-                color="white"
-              />
-            }
-          />
+
+        {this.state.loading && (
+          <Text>Loading data from server...</Text>
+        )}
+
+        <FlatList
+          key='flatlist'
+          style={styles.list}
+          data={this.state.items}
+          renderItem={({ item }) => <CartItem event={item} />}
+          keyExtractor={item => item.id}
+        />
+
+        <View style={styles.footer}>
+          {this.state.total !== undefined && (
+            <Text>Total: {this.state.total}</Text>
+          )}
+          {this.state.total !== undefined && (
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('FinishOrder')}>
+              <Text>FINALIZAR PEDIDO</Text>
+            </TouchableHighlight>
+          )}
         </View>
-      </View>
-
-      <FlatList
-        key='flatlist'
-        style={styles.list}
-        data={cartItems}
-        renderItem={({ item }) => <CartItem event={item} />}
-        keyExtractor={item => item.id}
-      />
-
-      <View style={styles.footer}>
-        <Text>Total: {totalOrder}</Text>
-
-        <TouchableHighlight onPress={() => navigation.navigate('FinishOrder')}>
-          <Text>FINALIZAR PEDIDO</Text>
-        </TouchableHighlight>
-      </View>
-    </View >
-  );
+      </View >
+    );
+  }
 }
 
 function CartItem({ event }) {

@@ -5,43 +5,28 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { ItemCard } from './ItemCard';
 
+import services from '../services';
 
 export class ItemList extends React.Component {
   state = {
+    loading: false,
     items: [],
-    cartItems: [
-      {
-        "name": "Leite",
-        "price": 5.50,
-        "measure": "caixinha"
-      },
-      {
-        "name": "Maça",
-        "price": 0.50,
-        "measure": "unidade"
-      },
-      {
-        "name": "Maça",
-        "price": 0.50,
-        "measure": "unidade"
-      },
-      {
-        "name": "Banana",
-        "price": 0.75,
-        "measure": "unidade"
-      },
-    ]
+  }
+
+  loadProducts = () => {
+    this.setState({ loading: true });
+    services.loadAvailableProducts().then(items => {
+      this.setState({ items });
+      this.setState({ loading: false });
+    })
   }
 
   componentDidMount() {
-    const items = require('../../db.json').items.map(e => ({
-      ...e
-    }));
-    this.setState({ items });
+    this.loadProducts();
   }
 
   goToCart = () => {
-    this.props.navigation.navigate('Carrinho', { cartItems: this.state.cartItems })
+    this.props.navigation.navigate('Carrinho')
   }
 
   render() {
@@ -68,13 +53,14 @@ export class ItemList extends React.Component {
         key='flatlist'
         style={styles.list}
         data={this.state.items}
-        renderItem={({ item }) => <ItemCard event={item} />}
+        renderItem={({ item }) => <ItemCard item={item} />}
         keyExtractor={item => item.id}
+        onRefresh={this.loadProducts}
+        refreshing={this.state.loading}
       />,
     ];
   }
 }
-
 
 
 const styles = StyleSheet.create({
