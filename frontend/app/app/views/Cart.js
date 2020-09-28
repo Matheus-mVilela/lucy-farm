@@ -60,7 +60,7 @@ export class Cart extends React.Component {
           )}
           {this.state.total !== 0 && (
             <TouchableOpacity style={styles.buttonFinish} onPress={() => this.props.navigation.navigate('FinishOrder')}>
-              <Text>FINALIZAR PEDIDO</Text>
+              <Text style={styles.txtBtnFinish}>FINALIZAR PEDIDO</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -77,8 +77,8 @@ function CartItem({ item }) {
           onPress={() => services.removeItemToCart(item.id)}
           icon={
             <Icon
-              name="remove"
-              size={16}
+              name="close"
+              size={20}
               color="white"
             />
           }
@@ -146,6 +146,9 @@ const styles = StyleSheet.create({
     padding: 9,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  txtBtnFinish:{
+    color:'#fff',
   },
   footer: {
     flex: 1,
