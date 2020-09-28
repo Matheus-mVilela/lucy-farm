@@ -3,17 +3,20 @@ import { Text, View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import services from '../services';
 
-export default function ItemCard({ event }) {
+
+export function ItemCard({ item }) {
   return (
     <View style={styles.card}>
       <View>
-        <Text style={styles.name}>{event.name}</Text>
-        <Text style={styles.measure}>{event.measure}</Text>
-        <Text style={styles.price}>R${event.price}</Text>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.measure}>{item.measure}</Text>
+        <Text style={styles.price}>R${item.price}</Text>
       </View>
       <View style={styles.button}>
         <Button
+          onPress={() => { services.addItemToCart(item) }}
           icon={
             <Icon
               name="plus"

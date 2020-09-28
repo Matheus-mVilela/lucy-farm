@@ -3,19 +3,30 @@ import { Text, View, StyleSheet, FlatList } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import ItemCard from './ItemCard';
+import { ItemCard } from './ItemCard';
 
+import services from '../services';
 
-export default class ItemList extends React.Component {
+export class ItemList extends React.Component {
   state = {
-    items: []
+    loading: false,
+    items: [],
+  }
+
+  loadProducts = () => {
+    this.setState({ loading: true });
+    services.loadAvailableProducts().then(items => {
+      this.setState({ items });
+      this.setState({ loading: false });
+    })
   }
 
   componentDidMount() {
-    const items = require('../../db.json').items.map(e => ({
-      ...e
-    }));
-    this.setState({ items });
+    this.loadProducts();
+  }
+
+  goToCart = () => {
+    this.props.navigation.navigate('Carrinho')
   }
 
   render() {
@@ -26,6 +37,7 @@ export default class ItemList extends React.Component {
         </View>
         <View>
           <Button
+            onPress={this.goToCart}
             icon={
               <Icon
                 name="shopping-cart"
@@ -41,13 +53,14 @@ export default class ItemList extends React.Component {
         key='flatlist'
         style={styles.list}
         data={this.state.items}
-        renderItem={({ item }) => <ItemCard event={item} />}
+        renderItem={({ item }) => <ItemCard item={item} />}
         keyExtractor={item => item.id}
+        onRefresh={this.loadProducts}
+        refreshing={this.state.loading}
       />,
     ];
   }
 }
-
 
 
 const styles = StyleSheet.create({
