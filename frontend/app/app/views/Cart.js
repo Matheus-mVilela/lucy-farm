@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconDsign from 'react-native-vector-icons/AntDesign';
 
 import services from '../services';
 
@@ -76,10 +77,10 @@ function CartItem({ item }) {
         <Button
           onPress={() => services.removeItemToCart(item.id)}
           icon={
-            <Icon
-              name="close"
-              size={20}
-              color="white"
+            <IconDsign
+              name="closecircle"
+              size={17}
+              color="red"
             />
           }
         />
