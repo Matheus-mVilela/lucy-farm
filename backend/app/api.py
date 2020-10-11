@@ -1,8 +1,39 @@
-from fastapi import FastAPI
+import fastapi
+import sqlalchemy.orm
+from . import schemas, services, database, models
 
-app = FastAPI()
+
+# Create DB
+models.Base.metadata.create_all(bind=database.engine)
+
+_VERSION = '/api/v.1'
+_SESSION_KEY = 'api_key'
+
+app = fastapi.FastAPI(
+    openapi_url=_VERSION + '/openapi.json', docs_url=_VERSION + '/docs',
+)
 
 
-@app.get('/')
-async def root():
-    return {'msg': 'Hello World'}
+# Dependency
+def get_db():
+    db = database.SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+@app.post(_VERSION + '/user', status_code=201, response_model=schemas.User)
+def create_user(
+    user: schemas.UserCreate,
+    db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
+):
+    return services.create_user(
+        db=db, user=schemas.User(**user.dict()), password=user.password,
+    )
+
+
+# TODO: read_user()
+# TODO: use scrests to password()
+# TODO: Login()
+# TODO: Logout()
