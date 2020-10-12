@@ -20,7 +20,7 @@ class TestUser:
 
         return (user, session)
 
-    def test_create_user(self, payload, session_maker):
+    def test_create(self, payload, session_maker):
         session = session_maker()
 
         user = models.User(
@@ -38,7 +38,7 @@ class TestUser:
         assert 1 == session.query(models.User).count()
         assert user == session.query(models.User).first()
 
-    def test_update_user(self, _create_fake_user):
+    def test_update(self, _create_fake_user):
         user, session = _create_fake_user
 
         user.username = 'UpdatedName'
@@ -53,7 +53,7 @@ class TestUser:
         assert updated_user.email == 'UpdatedEmail'
         assert updated_user.hashed_password == 'UpdatedHashedPassword'
 
-    def test_delete_user(self, _create_fake_user):
+    def test_delete(self, _create_fake_user):
         user, session = _create_fake_user
         assert 1 == session.query(models.User).count()
 
@@ -62,7 +62,7 @@ class TestUser:
 
         assert 0 == session.query(models.User).count()
 
-    def test_detail_user(self, payload, _create_fake_user):
+    def test_detail(self, payload, _create_fake_user):
         user, session = _create_fake_user
         assert user.username == payload['username']
         assert user.email == payload['email']
