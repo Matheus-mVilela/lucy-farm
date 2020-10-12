@@ -60,7 +60,7 @@ export class Cart extends React.Component {
           )}
           {this.state.total !== 0 && (
             <TouchableOpacity style={styles.buttonFinish} onPress={() => this.props.navigation.navigate('FinishOrder')}>
-              <Text>FINALIZAR PEDIDO</Text>
+              <Text style={styles.txtBtnFinish}>FINALIZAR PEDIDO</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -74,12 +74,13 @@ function CartItem({ item }) {
     <View style={styles.cartList}>
       <View style={styles.removeItem}>
         <Button
+          type="clear"
           onPress={() => services.removeItemToCart(item.id)}
           icon={
             <Icon
-              name="remove"
-              size={16}
-              color="white"
+              name="close"
+              size={25}
+              color="red"
             />
           }
         />
@@ -146,6 +147,9 @@ const styles = StyleSheet.create({
     padding: 9,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  txtBtnFinish:{
+    color:'#fff',
   },
   footer: {
     flex: 1,
