@@ -143,3 +143,6 @@ dmypy.json
 
 # macOS
 .DS_Store
+
+# frontend
+frontend/app/package-lock.json
