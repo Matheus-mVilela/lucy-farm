@@ -61,7 +61,3 @@ def read_user(
     email: str, db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
 ):
     return services.get_user_by_email(db=db, email=email, raise_error=True)
-
-
-# TODO: Login()
-# TODO: Logout()
