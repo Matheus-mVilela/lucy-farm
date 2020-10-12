@@ -1,7 +1,8 @@
+import datetime
+import uuid
+
 import sqlalchemy
 import sqlalchemy.orm
-import uuid
-import datetime
 
 from .database import Base
 

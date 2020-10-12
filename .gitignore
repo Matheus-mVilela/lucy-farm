@@ -143,3 +143,7 @@ dmypy.json
 
 # macOS
 .DS_Store
+
+# Database
+sql_app.db
+sql_app_test.db
