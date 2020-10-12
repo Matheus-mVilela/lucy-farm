@@ -3,6 +3,8 @@
 This module is reponsible to handle all interactions to the database
 """
 
+import typing
+
 # import hashlib
 # import secrets
 
@@ -65,3 +67,40 @@ def create_user(
 
     db.flush()
     return _user
+
+
+def get_item_by_name(
+    db: sqlalchemy.orm.Session, name: str, raise_error: bool = False
+) -> models.Item:
+    item = db.query(models.Item).filter(models.Item.name == name).first()
+
+    if not item:
+        if raise_error:
+            raise DoesNotExisit('Item does not exist.')
+        return None
+
+    return item
+
+
+def create_item(
+    db: sqlalchemy.orm.Session, item: schemas.Item, persist: bool = True
+) -> models.Item:
+    _item = get_item_by_name(db, name=item.name)
+    if _item:
+        raise ValidationError('Item already exist.')
+
+    _item = _item or models.Item()
+    _item.name = item.name
+    _item.price = item.price
+    _item.measure = item.measure
+
+    db.add(_item)
+    if persist:
+        db.commit()
+
+    db.flush()
+    return _item
+
+
+def list_items(db: sqlalchemy.orm.Session) -> typing.List[models.Item]:
+    return db.query(models.Item).all()
