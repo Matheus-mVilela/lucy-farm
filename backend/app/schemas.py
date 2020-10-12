@@ -6,7 +6,7 @@ class User(pydantic.BaseModel):
         orm_mode = True
 
     username: str
-    email: str
+    email: pydantic.EmailStr
 
 
 class UserCreate(User):

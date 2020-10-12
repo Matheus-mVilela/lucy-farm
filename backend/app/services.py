@@ -3,8 +3,12 @@
 This module is reponsible to handle all interactions to the database
 """
 
+# import hashlib
+# import secrets
+
 import sqlalchemy.orm
-from . import models, schemas
+
+from . import models, schemas, security
 
 
 class ServicesException(Exception):
@@ -26,10 +30,11 @@ class DoesNotExisit(ServicesException):
 def get_user_by_email(
     db: sqlalchemy.orm.Session, email: str, raise_error: bool = False,
 ) -> models.User:
-    user = db.query(models.User).get(email)
+    user = db.query(models.User).filter(models.User.email == email).first()
+
     if not user:
         if raise_error:
-            raise DoesNotExisit('User does not exist')
+            raise DoesNotExisit('User does not exist.')
         return None
 
     return user
@@ -38,22 +43,21 @@ def get_user_by_email(
 def create_user(
     db: sqlalchemy.orm.Session,
     user: schemas.User,
-    password: bool = None,
+    password: str = None,
     persist: bool = True,
 ) -> models.User:
 
-    _user = get_user_by_email(db, email=user.email)
+    if not password:
+        raise ValidationError('Password is empty.')
 
+    _user = get_user_by_email(db, email=user.email)
     if _user and _user.hashed_password:
-        raise ValidationError('Entity already exist')
+        raise ValidationError('User already exist.')
 
     _user = _user or models.User()
     _user.username = user.username
     _user.email = user.email
-
-    if password:
-        # TODO: user_set_password()
-        pass
+    _user.hashed_password = security.get_password_hash(password)
 
     db.add(_user)
     if persist:

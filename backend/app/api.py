@@ -1,7 +1,7 @@
 import fastapi
 import sqlalchemy.orm
-from . import schemas, services, database, models
 
+from . import database, models, schemas, services
 
 # Create DB
 models.Base.metadata.create_all(bind=database.engine)
@@ -23,6 +23,27 @@ def get_db():
         db.close()
 
 
+@app.exception_handler(services.ServicesException)
+def handle_services_error(
+    request: fastapi.Request, exception: services.ServicesException
+):
+    # TODO:
+    # if isinstance(exception, services.APIKeyNotFound):
+    #     return fastapi.responses.JSONResponse(status_code=403)
+
+    if isinstance(exception, services.ValidationError):
+        return fastapi.responses.JSONResponse(
+            status_code=400, content={'detail': str(exception)}
+        )
+
+    if isinstance(exception, services.DoesNotExisit):
+        return fastapi.responses.JSONResponse(
+            status_code=404, content={'detail': str(exception)}
+        )
+
+    raise exception
+
+
 @app.post(_VERSION + '/user', status_code=201, response_model=schemas.User)
 def create_user(
     user: schemas.UserCreate,
@@ -33,7 +54,14 @@ def create_user(
     )
 
 
-# TODO: read_user()
-# TODO: use scrests to password()
+@app.get(
+    _VERSION + '/user/{email}', status_code=200, response_model=schemas.User
+)
+def read_user(
+    email: str, db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
+):
+    return services.get_user_by_email(db=db, email=email, raise_error=True)
+
+
 # TODO: Login()
 # TODO: Logout()
