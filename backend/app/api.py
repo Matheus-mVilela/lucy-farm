@@ -1,3 +1,5 @@
+import typing
+
 import fastapi
 import sqlalchemy.orm
 
@@ -61,3 +63,32 @@ def read_user(
     email: str, db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
 ):
     return services.get_user_by_email(db=db, email=email, raise_error=True)
+
+
+@app.post(_VERSION + '/item', status_code=201, response_model=schemas.Item)
+def create_item(
+    item: schemas.Item, db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
+):
+    return services.create_item(db=db, item=schemas.Item(**item.dict()))
+
+
+@app.get(
+    _VERSION + '/item/{name}', status_code=200, response_model=schemas.Item
+)
+def read_item(
+    name: str, db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
+):
+    return services.get_item_by_name(db=db, name=name, raise_error=True)
+
+
+@app.get(
+    _VERSION + '/items',
+    status_code=200,
+    response_model=typing.List[schemas.Item],
+)
+def list_item(db: sqlalchemy.orm.Session = fastapi.Depends(get_db)):
+    return services.list_items(db=db)
+
+
+# TODO - MATHEUS: endpoint and tests to update|delete Item
+# TODO - FELIPE: endpoint and tests to create|detail|update Order

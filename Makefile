@@ -10,7 +10,7 @@ build: delete-container ## Build the container
 	@docker-compose up --build -d
 
 test: start ## Run tests
-	@docker-compose exec backend pytest
+	@docker-compose exec backend pytest backend
 
 restart: ## Restart the container
 	@docker-compose restart
