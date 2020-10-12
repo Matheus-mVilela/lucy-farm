@@ -143,3 +143,10 @@ dmypy.json
 
 # macOS
 .DS_Store
+
+# frontend
+frontend/app/package-lock.json
+
+# Database
+sql_app.db
+sql_app_test.db
