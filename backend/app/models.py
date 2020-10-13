@@ -52,7 +52,7 @@ class Order(Base):
     item = sqlalchemy.Column(
         sqlalchemy.String, sqlalchemy.ForeignKey('items.id')
     )
-    is_active = sqlalchemy.Column(sqlalchemy.Boolean)
+    is_active = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
     created_at = sqlalchemy.Column(
         sqlalchemy.DateTime, default=datetime.datetime.utcnow
     )

@@ -1,4 +1,5 @@
 import uuid
+import random
 import collections
 
 import pytest
@@ -7,7 +8,7 @@ from app import models
 
 
 @pytest.fixture
-def payload():
+def payload_user():
     return {'username': 'root', 'email': 'root@email.com', 'password': '123'}
 
 
@@ -26,3 +27,12 @@ def user_fixture(session_maker):
 
     info = collections.namedtuple('info', 'user session')
     return info(user=user, session=session)
+
+
+@pytest.fixture
+def payload_item():
+    return {
+        'name': f'Leite-{uuid.uuid4()}',
+        'price': round(random.uniform(1, 999), 2),
+        'measure': str(uuid.uuid4()),
+    }

@@ -1,3 +1,5 @@
+import datetime
+
 import pydantic
 
 
@@ -23,6 +25,13 @@ class Order(pydantic.BaseModel):
     class Config:
         orm_mode = True
 
-    user: User
-    item: Item
+    id: str
+    user: str
+    item: str
     is_active: bool
+    created_at: datetime.datetime
+
+
+class OrderCreate(pydantic.BaseModel):
+    user_id: str
+    item_id: int
