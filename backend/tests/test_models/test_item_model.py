@@ -39,6 +39,27 @@ class TestItem:
         assert 1 == session.query(models.Item).count()
         assert item == session.query(models.Item).first()
 
+    def test_update(self, _create_fake_item):
+        item, session = _create_fake_item
+
+        item.name = "UpdatedName"
+        item.price = 2
+        item.measure = "UpdatedMeasure"
+
+        session.add(item)
+        session.commit()
+
+        updated_item = session.query(models.Item).first()
+        assert updated_item.name == "UpdatedName"
+        assert updated_item.price == 2
+        assert updated_item.measure == "UpdatedMeasure"
+
+    def test_detail(self, payload_item, _create_fake_item):
+        item, session = _create_fake_item
+        assert item.name == payload_item["name"]
+        assert item.price == payload_item["price"]
+        assert item.measure == payload_item["measure"]
+
     def test_delete(self, _create_fake_item):
         item, session = _create_fake_item
         assert 1 == session.query(models.Item).count()
