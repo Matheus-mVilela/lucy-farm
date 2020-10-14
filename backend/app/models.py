@@ -34,6 +34,9 @@ class Item(Base):
     name = sqlalchemy.Column(sqlalchemy.String)
     price = sqlalchemy.Column(sqlalchemy.Float)
     measure = sqlalchemy.Column(sqlalchemy.String)
+    order_id = sqlalchemy.Column(
+        sqlalchemy.String, sqlalchemy.ForeignKey('orders.id')
+    )
 
 
 class Order(Base):
@@ -49,9 +52,7 @@ class Order(Base):
     user = sqlalchemy.Column(
         sqlalchemy.String, sqlalchemy.ForeignKey('users.id')
     )
-    item = sqlalchemy.Column(
-        sqlalchemy.String, sqlalchemy.ForeignKey('items.id')
-    )
+    items = sqlalchemy.orm.relationship('Item')
     is_active = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
     created_at = sqlalchemy.Column(
         sqlalchemy.DateTime, default=datetime.datetime.utcnow

@@ -1,3 +1,4 @@
+import typing
 import datetime
 
 import pydantic
@@ -21,17 +22,21 @@ class Item(pydantic.BaseModel):
     measure: str
 
 
+class ItemDetail(Item):
+    order_id: str
+
+
 class Order(pydantic.BaseModel):
     class Config:
         orm_mode = True
 
     id: str
     user: str
-    item: str
+    items_id: typing.List[ItemDetail]
     is_active: bool
     created_at: datetime.datetime
 
 
 class OrderCreate(pydantic.BaseModel):
     user_id: str
-    item_id: int
+    items_id: typing.List[int]
