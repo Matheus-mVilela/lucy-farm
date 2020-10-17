@@ -13,10 +13,17 @@ class UserCreate(User):
     password: str
 
 
-class Item(pydantic.BaseModel):
+class ItemCreate(pydantic.BaseModel):
     name: str
     price: float
     measure: str
+
+
+class Item(ItemCreate):
+    class Config:
+        orm_mode = True
+
+    id: str
 
 
 class Order(pydantic.BaseModel):
