@@ -22,11 +22,7 @@ def _create_fake_user_and_item(payload_user, session_maker):
         hashed_password=payload_user['password'],
     )
     items = [
-        models.Item(
-            name=f'Leite-{uuid.uuid4()}',
-            price=round(random.uniform(1, 999), 2),
-            measure=str(uuid.uuid4()),
-        )
+        models.Item(name=f'Leite-{uuid.uuid4()}', measure=str(uuid.uuid4()),)
         for _ in range(random.randint(1, 10))
     ]
     session.add(user)

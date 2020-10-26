@@ -160,8 +160,8 @@ def create_order(
         item = get_item_by_id(db, _id=item_id)
         if item:
             items.append(item)
-
-    order = models.Order(user=user.id, items=items)
+    # Needs creates OrderItem and link to Items
+    order = models.Order(user_id=user.id, items=items)
     db.add(order)
     if persist:
         db.commit()
