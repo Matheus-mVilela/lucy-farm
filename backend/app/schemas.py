@@ -26,13 +26,24 @@ class ItemDetail(Item):
     order_id: str
 
 
+class OrderItemDetail(pydantic.BaseModel):
+    class Config:
+        orm_mode = True
+
+    id: str
+    order_id: str
+    item_id: int
+    price: float
+    discount: float
+
+
 class Order(pydantic.BaseModel):
     class Config:
         orm_mode = True
 
     id: str
-    user: str
-    items_id: typing.List[ItemDetail]
+    user_id: str
+    items: typing.List[OrderItemDetail]
     is_active: bool
     created_at: datetime.datetime
 

@@ -32,6 +32,7 @@ class Item(Base):
         sqlalchemy.Integer, primary_key=True, unique=True, index=True
     )
     name = sqlalchemy.Column(sqlalchemy.String)
+    price = sqlalchemy.Column(sqlalchemy.Float)
     measure = sqlalchemy.Column(sqlalchemy.String)
 
 

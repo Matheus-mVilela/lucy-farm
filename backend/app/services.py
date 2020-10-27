@@ -153,21 +153,27 @@ def create_order(
     order: schemas.OrderCreate,
     persist: bool = True,
 ) -> models.Order:
-
-    user = get_user_by_id(db, _id=order.user_id, raise_error=True)
-    items = []
-    for item_id in order.items_id:
-        item = get_item_by_id(db, _id=item_id)
-        if item:
-            items.append(item)
-    # Needs creates OrderItem and link to Items
-    order = models.Order(user_id=user.id, items=items)
-    db.add(order)
-    if persist:
-        db.commit()
-
-    db.flush()
     import pdb
 
     pdb.set_trace()
+
+    user = get_user_by_id(db, _id=order.user_id, raise_error=True)
+    order = models.Order(user_id=user.id)
+    db.add(order)
+    db.flush()
+
+    for item_id in order.items_id:
+        item = get_item_by_id(db, _id=item_id)
+        if item:
+            order_item = models.OrderItem(
+                order_id=order.id,
+                item_id=item.id,
+                price=100,  # fix it
+                discount=100,  # fix it
+            )
+            db.add(order_item)
+
+    if persist:
+        db.commit()
+
     return order

@@ -95,6 +95,9 @@ def create_order(
     order: schemas.OrderCreate,
     db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
 ):
+    import pdb
+
+    pdb.set_trace()
     return services.create_order(
         db=db, order=schemas.OrderCreate(**order.dict())
     )

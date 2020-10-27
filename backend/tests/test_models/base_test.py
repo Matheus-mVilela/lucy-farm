@@ -44,7 +44,13 @@ class TestBase:
         }
 
     def create_fake_items(
-        self, session, name=None, measure=None, commit=True, _quantity=1
+        self,
+        session,
+        name=None,
+        price=None,
+        measure=None,
+        commit=True,
+        _quantity=1,
     ):
         payload_item = self.payload_item()
         if not name:
@@ -56,9 +62,10 @@ class TestBase:
         for _ in range(_quantity):
             if _quantity > 1:  # force random fields
                 name = f'Leite-{uuid.uuid4()}'
+                price = round(random.uniform(20, 100), 2)
                 measure = str(uuid.uuid4())
 
-            item = models.Item(name=name, measure=measure)
+            item = models.Item(name=name, price=price, measure=measure)
             items.append(item)
             session.add(item)
 
