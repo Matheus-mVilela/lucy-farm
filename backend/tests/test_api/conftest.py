@@ -36,3 +36,20 @@ def payload_item():
         "price": round(random.uniform(1, 999), 2),
         "measure": f"measure-{uuid.uuid4()}",
     }
+
+
+@pytest.fixture
+def item_fixture(session_maker):
+    session = session_maker()
+
+    item = models.Item(
+        name=f"banana-{uuid.uuid4()}",
+        price=round(random.uniform(1, 999), 2),
+        measure=f"measure-{uuid.uuid4()}",
+    )
+    session.add(item)
+    session.flush()
+    session.commit()
+
+    info = collections.namedtuple("info", "item session")
+    return info(item=item, session=session)
