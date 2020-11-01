@@ -29,6 +29,20 @@ class DoesNotExisit(ServicesException):
     pass
 
 
+# --- User --- #
+def get_user_by_id(
+    db: sqlalchemy.orm.Session, _id: str, raise_error: bool = False,
+) -> models.User:
+    user = db.query(models.User).filter(models.User.id == _id).first()
+
+    if not user:
+        if raise_error:
+            raise DoesNotExisit('User does not exist.')
+        return None
+
+    return user
+
+
 def get_user_by_email(
     db: sqlalchemy.orm.Session, email: str, raise_error: bool = False,
 ) -> models.User:
@@ -69,6 +83,20 @@ def create_user(
     return _user
 
 
+# --- Item --- #
+def get_item_by_id(
+    db: sqlalchemy.orm.Session, _id: str, raise_error: bool = False
+) -> models.Item:
+    item = db.query(models.Item).filter(models.Item.id == _id).first()
+
+    if not item:
+        if raise_error:
+            raise DoesNotExisit('Item does not exist.')
+        return None
+
+    return item
+
+
 def get_item_by_name(
     db: sqlalchemy.orm.Session, name: str, raise_error: bool = False
 ) -> models.Item:
@@ -104,3 +132,47 @@ def create_item(
 
 def list_items(db: sqlalchemy.orm.Session) -> typing.List[models.Item]:
     return db.query(models.Item).all()
+
+
+# --- Order --- #
+def get_order_by_id(
+    db: sqlalchemy.orm.Session, _id: str, raise_error: bool = False
+) -> models.Order:
+
+    order = db.query(models.Order).get(_id)
+    if not order:
+        if raise_error:
+            raise DoesNotExisit('Order does not exist.')
+        return None
+
+    return order
+
+
+def create_order(
+    db: sqlalchemy.orm.Session,
+    order: schemas.OrderCreate,
+    persist: bool = True,
+) -> models.Order:
+
+    user = get_user_by_id(db, _id=order.user_id, raise_error=True)
+    _order = models.Order(user_id=user.id)
+    db.add(_order)
+    db.flush()
+
+    for item_id in order.items_id:
+        item = get_item_by_id(db, _id=item_id)
+        if item:
+            order_item = models.OrderItem(
+                order_id=_order.id,
+                item_id=item.id,
+                price=order.price,
+                discount=order.discount,
+                quantity=order.quantity,
+            )
+            db.add(order_item)
+
+    if persist:
+        db.flush()
+        db.commit()
+
+    return _order

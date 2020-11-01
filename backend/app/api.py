@@ -90,5 +90,23 @@ def list_item(db: sqlalchemy.orm.Session = fastapi.Depends(get_db)):
     return services.list_items(db=db)
 
 
-# TODO - MATHEUS: endpoint and tests to update|delete Item
-# TODO - FELIPE: endpoint and tests to create|detail|update Order
+@app.post(_VERSION + '/order', status_code=201, response_model=schemas.Order)
+def create_order(
+    order: schemas.OrderCreate,
+    db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
+):
+    return services.create_order(
+        db=db, order=schemas.OrderCreate(**order.dict())
+    )
+
+
+@app.get(
+    _VERSION + '/order/{_id}', status_code=200, response_model=schemas.Order
+)
+def read_order(
+    _id: str, db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
+):
+    return services.get_order_by_id(db=db, _id=_id, raise_error=True)
+
+
+# TODO: create update Order endpoint and tests

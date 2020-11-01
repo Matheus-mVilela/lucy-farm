@@ -7,7 +7,7 @@ from app import models
 
 
 @pytest.fixture
-def payload():
+def payload_user():
     return {'username': 'root', 'email': 'root@email.com', 'password': '123'}
 
 

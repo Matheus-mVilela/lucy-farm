@@ -12,45 +12,45 @@ class TestCreateUser:
     def build_url(self):
         return f'{URL}/user'
 
-    def test_valid_returns_201(self, payload):
-        response = client.post(self.build_url(), json=payload)
+    def test_valid_returns_201(self, payload_user):
+        response = client.post(self.build_url(), json=payload_user)
         assert response.status_code == 201
 
-    def test_valid_returns_complete_body(self, payload):
-        response = client.post(self.build_url(), json=payload)
+    def test_valid_returns_complete_body(self, payload_user):
+        response = client.post(self.build_url(), json=payload_user)
         assert response.json() == {
-            'username': payload['username'],
-            'email': payload['email'],
+            'username': payload_user['username'],
+            'email': payload_user['email'],
         }
 
-    def test_valid_saves_on_db(self, payload, session_maker):
+    def test_valid_saves_on_db(self, payload_user, session_maker):
         assert session_maker().query(models.User).count() == 0
 
-        response = client.post(self.build_url(), json=payload)
+        response = client.post(self.build_url(), json=payload_user)
         assert response.ok
 
         assert session_maker().query(models.User).count() == 1
 
         user = session_maker().query(models.User).first()
-        assert payload['username'] == user.username
-        assert payload['email'] == user.email
+        assert payload_user['username'] == user.username
+        assert payload_user['email'] == user.email
         assert security.verify_password(
-            payload['password'], user.hashed_password
+            payload_user['password'], user.hashed_password
         )
 
     def test_empity_returns_unprocessable_entity(self):
         response = client.post(self.build_url(), json={})
         assert response.status_code == 422
 
-    def test_user_exist_returns_400(self, payload):
-        client.post(self.build_url(), json=payload)
-        response = client.post(self.build_url(), json=payload)
+    def test_user_exist_returns_400(self, payload_user):
+        client.post(self.build_url(), json=payload_user)
+        response = client.post(self.build_url(), json=payload_user)
         assert response.status_code == 400
         assert response.json() == {'detail': 'User already exist.'}
 
-    def test_invalid_email_returns_422(self, payload):
-        payload['email'] = 'fakemail'
-        response = client.post(self.build_url(), json=payload)
+    def test_invalid_email_returns_422(self, payload_user):
+        payload_user['email'] = 'fakemail'
+        response = client.post(self.build_url(), json=payload_user)
         assert response.status_code == 422
         assert response.json() == {
             'detail': [
