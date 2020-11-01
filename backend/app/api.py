@@ -95,9 +95,6 @@ def create_order(
     order: schemas.OrderCreate,
     db: sqlalchemy.orm.Session = fastapi.Depends(get_db),
 ):
-    import pdb
-
-    pdb.set_trace()
     return services.create_order(
         db=db, order=schemas.OrderCreate(**order.dict())
     )
@@ -112,5 +109,4 @@ def read_order(
     return services.get_order_by_id(db=db, _id=_id, raise_error=True)
 
 
-# TODO - MATHEUS: endpoint and tests to update|delete Item
-# TODO - FELIPE: endpoint and tests to |update Order
+# TODO: create update Order endpoint and tests

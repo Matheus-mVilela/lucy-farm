@@ -31,10 +31,10 @@ class OrderItemDetail(pydantic.BaseModel):
         orm_mode = True
 
     id: str
-    order_id: str
     item_id: int
     price: float
     discount: float
+    quantity: int
 
 
 class Order(pydantic.BaseModel):
@@ -51,3 +51,6 @@ class Order(pydantic.BaseModel):
 class OrderCreate(pydantic.BaseModel):
     user_id: str
     items_id: typing.List[int]
+    price: float
+    discount: float
+    quantity: int

@@ -54,6 +54,7 @@ class OrderItem(Base):
     )
     price = sqlalchemy.Column(sqlalchemy.Float)
     discount = sqlalchemy.Column(sqlalchemy.Float)
+    quantity = sqlalchemy.Column(sqlalchemy.Integer)
 
 
 class Order(Base):
