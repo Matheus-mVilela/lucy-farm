@@ -82,3 +82,18 @@ class TestDetailItem:
             "measure": item_fixture.item.measure,
             "id": "1",
         }
+
+
+@pytest.mark.usefixtures("use_db")
+class TestUpdateItem:
+    def build_url(self, name):
+        return f"{URL}/item/{name}"
+
+    def test_exist_item_returns_200(self, item_fixture):
+        request = client.get(self.build_url(item_fixture.item.name))
+        assert request.status_code == 200
+
+    def test_modifi_item(self, payload_item):
+        request = client.post(self.build_url(payload_item))
+
+        assert request.json()
